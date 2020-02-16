@@ -4,10 +4,14 @@ import '../components/counter_widget.dart';
 class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool gameWon;
   final Function onReset;
+  final int elapsedTime;
+  final int flags;
 
   ResultWidget({
     @required this.gameWon,
     @required this.onReset,
+    @required this.elapsedTime,
+    @required this.flags,
   });
 
   Color _getColor() {
@@ -44,12 +48,12 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               CounterWidget(
-                count: 10,
+                count: flags,
               ),
               CircleAvatar(
                 backgroundColor: _getColor(),
                 child: IconButton(
-                  padding: EdgeInsets.all(0),
+                  padding: EdgeInsets.all(2),
                   icon: Icon(
                     _getIcon(),
                     color: Colors.black,
@@ -59,7 +63,7 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               CounterWidget(
-                count: 0,
+                count: elapsedTime,
               ),
             ],
           ),

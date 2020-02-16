@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import '../components/board_widget.dart';
 import '../components/result_widget.dart';
@@ -11,19 +12,46 @@ class MinesweeperApp extends StatefulWidget {
 }
 
 class _MinesweeperAppState extends State<MinesweeperApp> {
+  static int _bombs = 30;
   bool _gameWon;
   Board _board;
+  int _flags = _bombs;
+  int _elapsedTime = 0;
+  bool _gameStarted = false;
+
+  void _startTimer() {
+    setState(() {
+      _gameStarted = true;
+    });
+
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_gameWon != null) {
+          timer.cancel();
+        } else {
+          _elapsedTime++;
+        }
+      });
+    });
+  }
 
   void _reset() {
     setState(() {
       _gameWon = null;
       _board.reset();
+      _flags = _bombs;
+      _elapsedTime = 0;
+      _gameStarted = false;
     });
   }
 
   void _open(Field field) {
     if (_gameWon != null) {
-      return null;
+      return;
+    }
+
+    if (!_gameStarted) {
+      _startTimer();
     }
 
     setState(() {
@@ -46,6 +74,13 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
 
     setState(() {
       field.toggleFlag();
+
+      if (field.flagged) {
+        _flags--;
+      } else {
+        _flags++;
+      }
+
       if (_board.resolved) {
         _gameWon = true;
       }
@@ -61,7 +96,7 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
       _board = Board(
         rows: rows,
         columns: columns,
-        bombs: 20,
+        bombs: _bombs,
       );
     }
 
@@ -75,6 +110,8 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
         appBar: ResultWidget(
           gameWon: _gameWon,
           onReset: _reset,
+          elapsedTime: _elapsedTime,
+          flags: _flags,
         ),
         body: Container(
           color: Colors.grey,

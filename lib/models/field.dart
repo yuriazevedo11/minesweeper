@@ -30,7 +30,7 @@ class Field {
   }
 
   void open() {
-    if (opened) {
+    if (opened || flagged) {
       return;
     }
 
