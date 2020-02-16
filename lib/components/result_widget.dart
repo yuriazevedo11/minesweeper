@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../components/counter_widget.dart';
 
 class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
   final bool gameWon;
@@ -39,19 +40,30 @@ class ResultWidget extends StatelessWidget implements PreferredSizeWidget {
       color: Colors.grey,
       child: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(10),
-          child: CircleAvatar(
-            backgroundColor: _getColor(),
-            child: IconButton(
-              padding: EdgeInsets.all(0),
-              icon: Icon(
-                _getIcon(),
-                color: Colors.black,
-                size: 35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              CounterWidget(
+                count: 10,
               ),
-              onPressed: onReset,
-            ),
+              CircleAvatar(
+                backgroundColor: _getColor(),
+                child: IconButton(
+                  padding: EdgeInsets.all(0),
+                  icon: Icon(
+                    _getIcon(),
+                    color: Colors.black,
+                    size: 35,
+                  ),
+                  onPressed: onReset,
+                ),
+              ),
+              CounterWidget(
+                count: 0,
+              ),
+            ],
           ),
+          padding: EdgeInsets.all(10),
         ),
       ),
     );
