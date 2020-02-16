@@ -80,6 +80,10 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
       return null;
     }
 
+    if (!_gameStarted) {
+      _startTimer();
+    }
+
     if (!field.flagged && _flags == 0) {
       return;
     }
