@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import '../components/board_widget.dart';
 import '../components/result_widget.dart';
-import '../components/field_widget.dart';
 import '../models/field.dart';
+import '../models/board.dart';
 
 class MinesweeperApp extends StatelessWidget {
   void _reset() {
@@ -18,8 +19,6 @@ class MinesweeperApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Field field = Field(row: 0, column: 0);
-
     return MaterialApp(
       home: Scaffold(
         appBar: ResultWidget(
@@ -27,8 +26,12 @@ class MinesweeperApp extends StatelessWidget {
           onReset: _reset,
         ),
         body: Container(
-          child: FieldWidget(
-            field: field,
+          child: BoardWidget(
+            board: Board(
+              rows: 10,
+              columns: 10,
+              bombs: 5,
+            ),
             onOpen: _open,
             onToggleFlag: _toggleFlag,
           ),
