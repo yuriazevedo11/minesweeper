@@ -25,7 +25,7 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
     });
 
     Timer.periodic(Duration(seconds: 1), (timer) {
-      if (_gameWon != null || _gameStarted == false) {
+      if (_gameWon != null || _gameStarted == false || _elapsedTime == 999) {
         timer.cancel();
       } else {
         setState(() {
@@ -70,6 +70,10 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
   void _toggleFlag(Field field) {
     if (_gameWon != null) {
       return null;
+    }
+
+    if (!field.flagged && _flags == 0) {
+      return;
     }
 
     setState(() {
