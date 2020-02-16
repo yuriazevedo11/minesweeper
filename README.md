@@ -18,8 +18,8 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 ## Utilizando o projeto
 
-1. Clone o repositório utilizando: `git clone git@github.com:yuriazevedo11/flutter-minesweeper.git`
-2. Entre na pasta do repositório: `cd flutter-minesweeper`
+1. Clone o repositório utilizando: `git clone git@github.com:yuriazevedo11/minesweeper.git`
+2. Entre na pasta do repositório: `cd minesweeper`
 3. Rode `flutter run` para o iniciar a aplicação no emulador ou em seu dispositivo
 
 OBS: Caso tenha escolhido rodar pelo emulador Android, você terá que abri-lo antes de rodar o comando, no iOS ele abre sozinho.
