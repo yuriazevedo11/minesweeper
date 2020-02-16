@@ -25,13 +25,13 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
     });
 
     Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_gameWon != null) {
-          timer.cancel();
-        } else {
+      if (_gameWon != null || _gameStarted == false) {
+        timer.cancel();
+      } else {
+        setState(() {
           _elapsedTime++;
-        }
-      });
+        });
+      }
     });
   }
 
