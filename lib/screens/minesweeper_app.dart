@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:vibration/vibration.dart';
 import '../components/board_widget.dart';
 import '../components/result_widget.dart';
 import '../models/field.dart';
@@ -45,7 +46,13 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
     });
   }
 
-  void _open(Field field) {
+  void _vibrate() async {
+    if (await Vibration.hasVibrator()) {
+      Vibration.vibrate();
+    }
+  }
+
+  void _open(Field field) async {
     if (_gameWon != null) {
       return;
     }
@@ -63,6 +70,7 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
       } on ExplosionException {
         _gameWon = false;
         _board.showBombs();
+        _vibrate();
       }
     });
   }
