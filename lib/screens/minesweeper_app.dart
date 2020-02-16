@@ -3,18 +3,69 @@ import '../components/board_widget.dart';
 import '../components/result_widget.dart';
 import '../models/field.dart';
 import '../models/board.dart';
+import '../models/explosion_exception.dart';
 
-class MinesweeperApp extends StatelessWidget {
+class MinesweeperApp extends StatefulWidget {
+  @override
+  _MinesweeperAppState createState() => _MinesweeperAppState();
+}
+
+class _MinesweeperAppState extends State<MinesweeperApp> {
+  bool _gameWon;
+  Board _board;
+
   void _reset() {
-    print('Resetting game...');
+    setState(() {
+      _gameWon = null;
+      _board.reset();
+    });
   }
 
   void _open(Field field) {
-    print('Openning field...');
+    if (_gameWon != null) {
+      return null;
+    }
+
+    setState(() {
+      try {
+        field.open();
+        if (_board.resolved) {
+          _gameWon = true;
+        }
+      } on ExplosionException {
+        _gameWon = false;
+        _board.showBombs();
+      }
+    });
   }
 
   void _toggleFlag(Field field) {
-    print('Toggling flag on field...');
+    if (_gameWon != null) {
+      return null;
+    }
+
+    setState(() {
+      field.toggleFlag();
+      if (_board.resolved) {
+        _gameWon = true;
+      }
+    });
+  }
+
+  Board _createBoard(double width, double height) {
+    if (_board == null) {
+      int columns = 12;
+      double fieldSize = width / columns;
+      int rows = (height / fieldSize).floor();
+
+      _board = Board(
+        rows: rows,
+        columns: columns,
+        bombs: 20,
+      );
+    }
+
+    return _board;
   }
 
   @override
@@ -22,18 +73,22 @@ class MinesweeperApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: ResultWidget(
-          gameWon: null,
+          gameWon: _gameWon,
           onReset: _reset,
         ),
         body: Container(
-          child: BoardWidget(
-            board: Board(
-              rows: 10,
-              columns: 10,
-              bombs: 5,
-            ),
-            onOpen: _open,
-            onToggleFlag: _toggleFlag,
+          color: Colors.grey,
+          child: LayoutBuilder(
+            builder: (ctx, constraints) {
+              return BoardWidget(
+                board: _createBoard(
+                  constraints.maxWidth,
+                  constraints.maxHeight,
+                ),
+                onOpen: _open,
+                onToggleFlag: _toggleFlag,
+              );
+            },
           ),
         ),
       ),
