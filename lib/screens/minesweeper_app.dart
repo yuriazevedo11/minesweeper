@@ -84,7 +84,7 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
       _startTimer();
     }
 
-    if (!field.flagged && _flags == 0) {
+    if ((!field.flagged && _flags == 0) || field.opened) {
       return;
     }
 

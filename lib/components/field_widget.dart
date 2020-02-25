@@ -31,6 +31,7 @@ class FieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      enableFeedback: !field.opened,
       onTap: () => onOpen(field),
       onLongPress: () => onToggleFlag(field),
       child: _getContent(),
