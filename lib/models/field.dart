@@ -60,6 +60,12 @@ class Field {
     _flagged = !_flagged;
   }
 
+  void showFlag() {
+    if (hasBomb) {
+      _flagged = true;
+    }
+  }
+
   void reset() {
     _opened = false;
     _flagged = false;
@@ -88,7 +94,7 @@ class Field {
   }
 
   bool get resolved {
-    bool resolution1 = hasBomb && flagged;
+    bool resolution1 = hasBomb;
     bool resolution2 = !hasBomb && opened;
 
     return resolution1 || resolution2;

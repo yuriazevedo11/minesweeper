@@ -28,6 +28,10 @@ class Board {
     _fields.forEach((field) => field.showBomb());
   }
 
+  void showFlags() {
+    _fields.forEach((field) => field.showFlag());
+  }
+
   void _createFields() {
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < columns; c++) {
