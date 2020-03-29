@@ -66,7 +66,13 @@ class _MinesweeperAppState extends State<MinesweeperApp> {
         field.open();
         if (_board.resolved) {
           _gameWon = true;
-          _board.showFlags();
+
+          if (_flags != 0) {
+            _board.showFlags();
+            setState(() {
+              _flags = 0;
+            });
+          }
         }
       } on ExplosionException {
         _gameWon = false;
